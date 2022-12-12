@@ -3,12 +3,10 @@ package com.example.NestDigitalApp_BackEnd.controller;
 import com.example.NestDigitalApp_BackEnd.dao.EmployDao;
 import com.example.NestDigitalApp_BackEnd.model.Employ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -32,4 +30,11 @@ public class EmployController {
         map.put("status","success");
         return map;
     }
+    @CrossOrigin(origins = "*")
+    @GetMapping(path = "/viewemp")
+    public List<Employ> EmployView()
+    {
+        return (List<Employ>) dao.findAll();
+    }
+
 }
