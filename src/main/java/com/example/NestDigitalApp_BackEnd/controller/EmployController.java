@@ -36,5 +36,13 @@ public class EmployController {
     {
         return (List<Employ>) dao.findAll();
     }
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/searchemp",consumes = "application/json",produces = "application/json")
+    public List<Employ> EmpSearch(@RequestBody Employ e)
+    {
+        String empcode=String.valueOf(e.getEmpcode());
+        System.out.println(empcode);
+        return (List<Employ>) dao.EmpSearch(e.getEmpcode());
+    }
 
 }
