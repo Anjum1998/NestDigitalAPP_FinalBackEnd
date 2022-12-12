@@ -44,7 +44,7 @@ public class EmployController {
         System.out.println(empcode);
         return (List<Employ>) dao.EmpSearch(e.getEmpcode());
     }
-
+    @CrossOrigin(origins = "*")
     @PostMapping(path = "/empdelete",consumes = "application/json", produces = "application/json")
     public Map<String,String> DeleteEmploy(@RequestBody Employ e)
     {
@@ -53,6 +53,28 @@ public class EmployController {
         dao.DeleteEmploy(e.getId());
         HashMap<String,String> map=new HashMap<>();
         map.put("status","success");
+        return map;
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/emplogin" ,consumes = "application/json",produces = "application/json")
+    public Map<String,String> EmployLogin(@RequestBody Employ e)
+    {
+        String username=e.getUsername().toString();
+        String password=e.getPassword().toString();
+        System.out.println(username);
+        System.out.println(password);
+        List<Employ> result=(List<Employ>) dao.EmployLogin(e.getUsername(),e.getPassword());
+        HashMap<String,String> map=new HashMap<>();
+        if (result.size()==0)
+        {
+            map.put("status","success");
+        }
+        else{
+            int id=result.get(0).getId();
+            map.put("empId",String.valueOf(id));
+            map.put("status","success");
+        }
         return map;
     }
 
