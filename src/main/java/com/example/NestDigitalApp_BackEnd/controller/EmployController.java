@@ -45,4 +45,15 @@ public class EmployController {
         return (List<Employ>) dao.EmpSearch(e.getEmpcode());
     }
 
+    @PostMapping(path = "/empdelete",consumes = "application/json", produces = "application/json")
+    public Map<String,String> DeleteEmploy(@RequestBody Employ e)
+    {
+        String id=String.valueOf(e.getId());
+        System.out.println(id);
+        dao.DeleteEmploy(e.getId());
+        HashMap<String,String> map=new HashMap<>();
+        map.put("status","success");
+        return map;
+    }
+
 }
