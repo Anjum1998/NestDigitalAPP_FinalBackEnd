@@ -51,5 +51,13 @@ public class SecurityController {
         }
         return map;
     }
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/securityprofile",consumes = "application/json",produces = "application/json")
+    public List<Security> SecurityViewById(@RequestBody Security s)
+    {
+        String id=String.valueOf(s.getId());
+        System.out.println(id);
+        return (List<Security>) dao.SecurityViewById(s.getId());
+    }
 
 }
