@@ -1,6 +1,7 @@
 package com.example.NestDigitalApp_BackEnd.controller;
 
 import com.example.NestDigitalApp_BackEnd.dao.EmployDao;
+import com.example.NestDigitalApp_BackEnd.dao.LeaveCounterDao;
 import com.example.NestDigitalApp_BackEnd.model.Employ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,8 @@ public class EmployController {
 
     @Autowired
     private EmployDao dao;
+
+    private LeaveCounterDao d;
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/addemp",consumes = "application/json" ,produces = "application/json")
@@ -86,6 +89,8 @@ public class EmployController {
         System.out.println(id);
         return (List<Employ>) dao.EmpViewByID(e.getId());
     }
+
+
 
 
 
