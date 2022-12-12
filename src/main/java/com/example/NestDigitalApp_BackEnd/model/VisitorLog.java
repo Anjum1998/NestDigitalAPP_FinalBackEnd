@@ -14,17 +14,20 @@ public class VisitorLog {
     private String name;
     private String purpose;
     private String whomtomeet;
+
+    private String date;
     private String entry_datetime;
     private String exit_datetime;
 
     public VisitorLog() {
     }
 
-    public VisitorLog(int id, String name, String purpose, String whomtomeet, String entry_datetime, String exit_datetime) {
+    public VisitorLog(int id, String name, String purpose, String whomtomeet,String date, String entry_datetime, String exit_datetime) {
         this.id = id;
         this.name = name;
         this.purpose = purpose;
         this.whomtomeet = whomtomeet;
+        this.date=date;
         this.entry_datetime = entry_datetime;
         this.exit_datetime = exit_datetime;
     }
@@ -59,6 +62,14 @@ public class VisitorLog {
 
     public void setWhomtomeet(String whomtomeet) {
         this.whomtomeet = whomtomeet;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getEntry_datetime() {
