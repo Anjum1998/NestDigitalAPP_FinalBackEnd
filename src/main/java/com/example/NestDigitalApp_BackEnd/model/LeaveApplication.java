@@ -17,13 +17,13 @@ public class LeaveApplication {
     private String from_date;
     private String to_date;
     private String apply_date;
-    private String status;
+    private int status;
 
 
     public LeaveApplication() {
     }
 
-    public LeaveApplication(int id, int empid, String leavetype, String remarks, String from_date, String to_date, String apply_date, String status) {
+    public LeaveApplication(int id, int empid, String leavetype, String remarks, String from_date, String to_date, String apply_date, int status) {
         this.id = id;
         this.empid = empid;
         this.leavetype = leavetype;
@@ -90,11 +90,11 @@ public class LeaveApplication {
         this.apply_date = apply_date;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }
