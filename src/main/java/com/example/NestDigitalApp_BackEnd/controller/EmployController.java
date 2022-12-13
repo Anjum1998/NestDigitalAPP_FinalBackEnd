@@ -3,6 +3,7 @@ package com.example.NestDigitalApp_BackEnd.controller;
 import com.example.NestDigitalApp_BackEnd.dao.EmployDao;
 import com.example.NestDigitalApp_BackEnd.dao.LeaveCounterDao;
 import com.example.NestDigitalApp_BackEnd.model.Employ;
+import com.example.NestDigitalApp_BackEnd.model.LeaveCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class EmployController {
 
     @Autowired
     private EmployDao dao;
-
+    @Autowired
     private LeaveCounterDao d;
 
     @CrossOrigin(origins = "*")
@@ -30,6 +31,10 @@ public class EmployController {
         System.out.println(e.getPassword().toString());
         dao.save(e);
         HashMap<String,String> map=new HashMap<>();
+        map.put("empid",String.valueOf(e.getId()));
+        LeaveCounter l=new LeaveCounter();
+        l.setEmpid(e.getId());
+        d.save(l);
         map.put("status","success");
         return map;
     }
