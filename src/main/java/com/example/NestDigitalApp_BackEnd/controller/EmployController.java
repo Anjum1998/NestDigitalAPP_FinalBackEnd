@@ -7,6 +7,7 @@ import com.example.NestDigitalApp_BackEnd.model.LeaveCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Year;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ public class EmployController {
     private EmployDao dao;
     @Autowired
     private LeaveCounterDao d;
+
+    int year= Year.now().getValue();
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/addemp",consumes = "application/json" ,produces = "application/json")
@@ -34,6 +37,10 @@ public class EmployController {
         map.put("empid",String.valueOf(e.getId()));
         LeaveCounter l=new LeaveCounter();
         l.setEmpid(e.getId());
+        l.setCasual(20);
+        l.setSick(7);
+        l.setOther(3);
+        l.setYear(String.valueOf(year));
         d.save(l);
         map.put("status","success");
         return map;

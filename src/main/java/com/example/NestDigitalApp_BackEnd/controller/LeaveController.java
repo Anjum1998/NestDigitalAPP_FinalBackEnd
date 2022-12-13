@@ -5,6 +5,7 @@ import com.example.NestDigitalApp_BackEnd.model.LeaveApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +16,14 @@ public class LeaveController {
     @Autowired
     private LeaveApplicationDao dao;
 
+    Date currentdate=new Date();
+
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/leaveapply",produces = "application/json",consumes = "application/json")
     public Map<String,String> ApplyLeave(@RequestBody LeaveApplication l)
     {
         dao.save(l);
+        l.setApply_date(String.valueOf(currentdate));
         HashMap<String,String> map=new HashMap<>();
         map.put("status","success");
         return map;
