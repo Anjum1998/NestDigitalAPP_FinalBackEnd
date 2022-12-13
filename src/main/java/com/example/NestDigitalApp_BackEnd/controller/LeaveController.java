@@ -22,8 +22,10 @@ public class LeaveController {
     @PostMapping(path = "/leaveapply",produces = "application/json",consumes = "application/json")
     public Map<String,String> ApplyLeave(@RequestBody LeaveApplication l)
     {
-        dao.save(l);
+
         l.setApply_date(String.valueOf(currentdate));
+        l.setStatus(0);
+        dao.save(l);
         HashMap<String,String> map=new HashMap<>();
         map.put("status","success");
         return map;
@@ -41,7 +43,7 @@ public class LeaveController {
     public Map<String,String> UpdateStatus(@RequestBody LeaveApplication l)
     {
         String empid=String.valueOf(l.getEmpid());
-        String status=l.getStatus().toString();
+        String status=String.valueOf(l.getStatus());
         System.out.println(empid);
         System.out.println(status);
         dao.UpdateStatus(l.getEmpid(),l.getStatus());
