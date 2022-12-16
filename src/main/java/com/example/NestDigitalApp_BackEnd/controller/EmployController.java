@@ -2,12 +2,15 @@ package com.example.NestDigitalApp_BackEnd.controller;
 
 import com.example.NestDigitalApp_BackEnd.dao.EmployDao;
 import com.example.NestDigitalApp_BackEnd.dao.LeaveCounterDao;
+import com.example.NestDigitalApp_BackEnd.dao.LoginDao;
+import com.example.NestDigitalApp_BackEnd.model.EmpLog;
 import com.example.NestDigitalApp_BackEnd.model.Employ;
 import com.example.NestDigitalApp_BackEnd.model.LeaveCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Year;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +23,11 @@ public class EmployController {
     @Autowired
     private LeaveCounterDao d;
 
+    @Autowired
+    private LoginDao ldao;
+
     int year= Year.now().getValue();
+    Date currentdate=new Date();
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/addemp",consumes = "application/json" ,produces = "application/json")
@@ -89,6 +96,13 @@ public class EmployController {
             int id=result.get(0).getId();
             map.put("empId",String.valueOf(id));
             map.put("status","success");
+
+            EmpLog e1=new EmpLog();
+            e1.setEmpid(id);
+            e1.setDate(String.valueOf(currentdate));
+            e1.setEntry_datetime(String.valueOf(currentdate));
+            e1.setExit_datetime(String.valueOf(currentdate));
+            ldao.save(e1);
         }
         return map;
     }
