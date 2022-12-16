@@ -1,10 +1,12 @@
 package com.example.NestDigitalApp_BackEnd.controller;
 
 import com.example.NestDigitalApp_BackEnd.dao.LeaveApplicationDao;
+import com.example.NestDigitalApp_BackEnd.dao.LeaveCounterDao;
 import com.example.NestDigitalApp_BackEnd.model.LeaveApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,8 @@ public class LeaveController {
 
     @Autowired
     private LeaveApplicationDao dao;
+    @Autowired
+    private LeaveCounterDao ldao;
 
     Date currentdate=new Date();
 
@@ -68,6 +72,39 @@ public class LeaveController {
         String empid=String.valueOf(l.getEmpid());
         System.out.println(empid);
         return (List<LeaveApplication>) dao.SearchStatus(l.getEmpid());
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "updatecounter",consumes = "application/json",produces = "application/json")
+    public Map<String,String> UpdateCounter(@RequestBody LeaveApplication l) throws ParseException{
+        String empid=String.valueOf(l.getEmpid());
+        String leavetype=String.valueOf(l.getLeavetype());
+
+        long casual=20;
+        long sick=7;
+        long other=3;
+
+        if(leavetype.equals("casual")){
+            casual=casual-1;
+            sick=sick;
+            other=other;
+
+            ldao.UpdateCounter(l.getEmpid(),(int) casual,(int) sick,(int) other);
+        } else if (leavetype.equals("sick")) {
+            casual=casual;
+            sick=sick-1;
+            other=other;
+
+            ldao.UpdateCounter(l.getEmpid(),(int) casual,(int) sick,(int) other);
+        }else {
+            casual=casual;
+            sick=sick;
+            other=other-1;
+            ldao.UpdateCounter(l.getEmpid(),(int) casual,(int) sick,(int) other);
+        }
+        HashMap<String,String> map=new HashMap<>();
+        map.put("status","success");
+        return map;
     }
 
 
