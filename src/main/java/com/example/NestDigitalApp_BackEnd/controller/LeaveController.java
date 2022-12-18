@@ -2,6 +2,7 @@ package com.example.NestDigitalApp_BackEnd.controller;
 
 import com.example.NestDigitalApp_BackEnd.dao.LeaveApplicationDao;
 import com.example.NestDigitalApp_BackEnd.dao.LeaveCounterDao;
+import com.example.NestDigitalApp_BackEnd.model.Employ;
 import com.example.NestDigitalApp_BackEnd.model.LeaveApplication;
 import com.example.NestDigitalApp_BackEnd.model.LeaveCounter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +34,28 @@ public class LeaveController {
         l.setApply_date(String.valueOf(currentdate));
         l.setStatus(0);
         dao.save(l);
+
+        List<LeaveApplication> result=(List<LeaveApplication>) dao.id(l.getEmpid());
         HashMap<String,String> map=new HashMap<>();
-        map.put("status","success");
+        if(result.size()==0){
+            map.put("status","failed");
+        }else{
+            int id=result.get(0).getId();
+            map.put("id",String.valueOf(id));
+            map.put("status","success");
+        }
         return map;
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/viewallleavebyemp")
-    public List<Map<String,String>> ViewAllLeave()
+    public List<LeaveApplication> ViewAllLeave()
     {
-        return (List<Map<String, String>>) dao.ViewAllLeave();
+        return(List<LeaveApplication>)dao.findAll();
+        //return (List<Map<String, String>>) dao.ViewAllLeave();
     }
+
+
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/update",consumes = "application/json",produces = "application/json")
@@ -53,7 +65,7 @@ public class LeaveController {
         String status=String.valueOf(l.getStatus());
         System.out.println(empid);
         System.out.println(status);
-        dao.UpdateStatus(l.getEmpid(),l.getStatus());
+        dao.UpdateStatus(l.getEmpid(),l.getStatus(),l.getId());
         HashMap<String,String> map=new HashMap<>();
         map.put("status","success");
         return map;
@@ -72,9 +84,9 @@ public class LeaveController {
     @PostMapping(path = "/searchstatus",consumes = "application/json",produces = "application/json")
     public List<LeaveApplication> SearchStatus(@RequestBody LeaveApplication l)
     {
-        String empid=String.valueOf(l.getEmpid());
-        System.out.println(empid);
-        return (List<LeaveApplication>) dao.SearchStatus(l.getEmpid());
+        String id=String.valueOf(l.getId());
+        System.out.println(l.getId());
+        return (List<LeaveApplication>) dao.SearchStatus(l.getId());
     }
 
     @CrossOrigin(origins = "*")
@@ -127,6 +139,13 @@ public class LeaveController {
         HashMap<String,String> map=new HashMap<>();
         map.put("status","success");
         return map;
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(path = "/viewcount")
+    public List<LeaveCounter> CountView()
+    {
+        return (List<LeaveCounter>) ldao.findAll();
     }
 
 
