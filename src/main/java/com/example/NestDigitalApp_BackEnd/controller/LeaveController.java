@@ -90,7 +90,7 @@ public class LeaveController {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping(value = "updatecounter",consumes = "application/json",produces = "application/json")
+    @PostMapping(value = "/updatecounter",consumes = "application/json",produces = "application/json")
     public Map<String,String> UpdateCounter(@RequestBody LeaveApplication l) throws ParseException{
         String empid=String.valueOf(l.getEmpid());
 
