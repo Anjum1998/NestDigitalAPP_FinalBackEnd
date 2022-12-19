@@ -94,7 +94,7 @@ public class LeaveController {
     public Map<String,String> UpdateCounter(@RequestBody LeaveApplication l) throws ParseException{
         String empid=String.valueOf(l.getEmpid());
 
-        List<LeaveApplication> result1=(List<LeaveApplication>) dao.SearchStatus(l.getEmpid());
+        List<LeaveApplication> result1=(List<LeaveApplication>) dao.CountStatus(l.getEmpid());
         l.setLeavetype(result1.get(0).getLeavetype());
 
         LocalDate from_date= LocalDate.parse(result1.get(0).getFrom_date());
@@ -142,10 +142,12 @@ public class LeaveController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(path = "/viewcount")
-    public List<LeaveCounter> CountView()
+    @PostMapping(path = "/viewcount")
+    public List<LeaveCounter> ViewRemainingLeave(@RequestBody LeaveCounter l)
     {
-        return (List<LeaveCounter>) ldao.findAll();
+        String empid=String.valueOf(l.getEmpid());
+        System.out.println(empid);
+        return (List<LeaveCounter>) ldao.ViewRemainingLeave(l.getEmpid());
     }
 
 
